@@ -61,7 +61,7 @@ def language
   lang_exceptions = ["coffee"]
 
   # Identify "source" scopes; ones that represent languages
-  source_scopes = ENV['TM_SCOPE'].split(" ").select {|s| s.start_with? "source."}
+  source_scopes = ENV['TM_SCOPE'].split(" ").select {|s| /^(source|text)\./.match(s) }
 
   # Restructure to match key format in language_map
   # Examples:
@@ -79,7 +79,6 @@ def language
 
   # Filter out anything in the lang_exceptions list
   language_scopes = language_scopes.reject { |l| lang_exceptions.include?(l) }
-  puts language_scopes.inspect
 
   # Lookup the docsets for each language
   docsets = language_scopes.map { |l| language_map[l] || l }.join(',')
